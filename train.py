@@ -316,7 +316,7 @@ for lang in ALL_LANGS:
     
 from pl_modules.pl_topo_roberta import LitTopoRelRoberta
 
-def test_model(model, dataloader, title=""):
+def test_model(model,test_lang, dataloader, title=""):
     preds = []
     model.to(device)
     model.eval()
@@ -329,7 +329,7 @@ def test_model(model, dataloader, title=""):
             batch_idx = 1
 
     preds = torch.cat(preds, dim=0).detach().cpu().numpy()
-    test_y = np.array(test_datasets["en"][target_key])
+    test_y = np.array(test_datasets[test_lang][target_key])
 
     precision, recall, fscore, _ = precision_recall_fscore_support(test_y, preds, average="weighted")
     mae = mean_absolute_error(y_true=test_y, y_pred=preds)
